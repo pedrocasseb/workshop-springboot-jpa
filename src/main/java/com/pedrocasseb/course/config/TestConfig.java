@@ -2,10 +2,12 @@ package com.pedrocasseb.course.config;
 
 import com.pedrocasseb.course.entities.Category;
 import com.pedrocasseb.course.entities.Order;
+import com.pedrocasseb.course.entities.Product;
 import com.pedrocasseb.course.entities.User;
 import com.pedrocasseb.course.entities.enums.OrderStatus;
 import com.pedrocasseb.course.repositories.CategoryRepository;
 import com.pedrocasseb.course.repositories.OrderRepository;
+import com.pedrocasseb.course.repositories.ProductRepository;
 import com.pedrocasseb.course.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +24,7 @@ public class TestConfig implements CommandLineRunner {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -30,14 +33,18 @@ public class TestConfig implements CommandLineRunner {
         Category cat2 = new Category(null, "Books");
         Category cat3 = new Category(null, "Computer");
 
-        User u1 = new User(null, "Maria Brown", "maria@gmail.com", "98888888888", "123456", null);
-        User u2 = new User(null, "Alex Green", "alex@gmail.com", "8999999999", "123456", null);
+        Product p1 = new Product(null, "Notebook", "Ultrafino", 1000.3, "asdasd.com");
+        Product p2 = new Product(null, "Computador", "Potente", 3000.3, "asdasd.com");
+
+        User u1 = new User(null, "Maria Brown", "maria@gmail.com", "98888888888", "123456");
+        User u2 = new User(null, "Alex Green", "alex@gmail.com", "8999999999", "123456");
 
         Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
         Order o2 = new Order(null, Instant.parse("2019-06-20T17:33:15Z"), OrderStatus.WAITING_PAYMENT, u2);
         Order o3 = new Order(null, Instant.parse("2019-06-20T18:43:01Z"), OrderStatus.WAITING_PAYMENT, u1);
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+        productRepository.saveAll(Arrays.asList(p1, p2));
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
     }
