@@ -38,11 +38,24 @@ public class Product implements Serializable {
     )
     private Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.product")
+    @JsonIgnore
+    private Set<OrderItem> items = new HashSet<>();
+
     public Product(Long id, String name, String description, Double price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> orders = new HashSet<>();
+        for(OrderItem item : items) {
+            orders.add(item.getOrder());
+        }
+        return orders;
     }
 }
